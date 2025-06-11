@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cine Stuff - Marvel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="../styles/dialogs.css">
+  <style>
+    /* Content spacing */
+    .content-section {
+      margin-top: 40px;
+      padding: 10px 4%;
+    }
+
+    /* Movie cards styling exactly like index.html */
+    .movies-list {
+      width: 100%;
+      height: auto;
+      position: relative;
+      margin: 5px 0 10px;
+    }
+
+    .card-container {
+      position: relative;
+      width: 100%;
+      padding-left: 10px;
+      height: auto;
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      overflow-y: visible;
+      scroll-behavior: smooth;
+    }
+
+    .card-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .movie-card {
+      position: relative;
+      min-width: 250px;
+      width: 250px;
+      height: 350px;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-right: 10px;
+      transition: 0.5s;
+      cursor: pointer;
+    }
+
+    .movie-card:hover {
+      transform: scale(1.1);
+      z-index: 2;
+    }
+
+    .movie-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .movie-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      background: linear-gradient(to top, 
+        rgba(0, 0, 0, 0.95) 0%,
+        rgba(0, 0, 0, 0.8) 60%,
+        transparent 100%);
+      transform: translateY(105%);
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(5px);
+    }
+
+    .movie-card:hover .movie-info {
+      transform: translateY(0);
+    }
+
+    .movie-title {
+      color: #fff;
+      font-size: 18px;
+      margin-bottom: 8px;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .movie-description {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+      margin-bottom: 15px;
+      line-height: 1.4;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+    }
+
+    .movie-card:hover .movie-title,
+    .movie-card:hover .movie-description {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .watchlist-btn {
+      background: rgba(255, 107, 107, 0.15);
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 100%;
+      text-align: center;
+      font-weight: 500;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 107, 107, 0.1);
+      margin-top: 10px;
+      transform: translateY(20px);
+      opacity: 0;
+    }
+
+    .movie-card:hover .watchlist-btn {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .watchlist-btn:hover {
+      background: linear-gradient(45deg, rgba(255, 107, 107, 0.3), rgba(255, 217, 61, 0.3));
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    }
+
+    .watchlist-btn[data-added="true"] {
+      background: linear-gradient(45deg, 
+        rgba(46, 204, 113, 0.3), 
+        rgba(46, 204, 113, 0.2));
+      color: #2ecc71;
+      border-color: rgba(46, 204, 113, 0.3);
+    }
+
+    .watchlist-btn[data-added="true"]:hover {
+      background: linear-gradient(45deg, 
+        rgba(46, 204, 113, 0.4), 
+        rgba(46, 204, 113, 0.3));
+    }
+
+    /* Brand header */
+    .brand-header {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+      margin-top: 60px;
+    }
+
+    .brand-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.5) 50%,
+        rgba(0, 0, 0, 0.7) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-logo {
+      width: 200px;
+      height: auto;
+      filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+    }
+
+    /* Navbar */
+    .navbar {
+      width: 100%;
+      height: 80px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 0 4%;
+      background: linear-gradient(to bottom, rgba(26, 11, 46, 0.95) 0%, rgba(26, 11, 46, 0));
+      backdrop-filter: blur(10px);
+      z-index: 9;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-container {
+      position: relative;
+      width: 350px;
+      margin-left: 60px;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 12px 20px;
+      border: 2px solid rgba(255, 107, 107, 0.2);
+      border-radius: 16px;
+      background: rgba(26, 11, 46, 0.6);
+      color: #fff;
+      font-size: 15px;
+    }
+
+    .right-container {
+      display: flex;
+      margin-left: auto;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .Subscribe,
+    .login-btn {
+      padding: 8px 16px;
+      font-size: 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .Subscribe {
+      background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+      color: #fff;
+      border: none;
+    }
+
+    .login-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: none;
+    }
+
+    .login-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar-trigger"></div>
+  <div class="sidebar">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <img src="images/logo.png" alt="Disney+" class="sidebar-logo">
+      </div>
+      <div class="sidebar-menu">
+        <a href="main.html" class="menu-item">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a href="./watchlist.html" class="menu-item">
+          <i class="fas fa-plus"></i>
+          <span>Watch Later</span>
+        </a>
+        <a href="./movies.html" class="menu-item">
+          <i class="fas fa-film"></i>
+          <span>Movies</span>
+        </a>
+        <a href="series.html" class="menu-item">
+          <i class="fas fa-tv"></i>
+          <span>Series</span>
+        </a>
+      </div>
+      <div class="sidebar-categories">
+        <h3>Categories</h3>
+        <a href="action.html" class="category-item">Action</a>
+        <a href="adventure.html" class="category-item">Adventure</a>
+        <a href="animation.html" class="category-item">Animation</a>
+        <a href="comedy.html" class="category-item">Comedy</a>
+        <a href="drama.html" class="category-item">Drama</a>
+        <a href="horror.html" class="category-item">Horror</a>
+        <a href="scifi.html" class="category-item active">Sci-Fi</a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <div class="search-container">
+      <input type="text" class="search-box" id="searchInput" placeholder="Search Marvel movies...">
+      <ul id="suggestions" class="suggestions-list"></ul>
+    </div>
+    <div class="right-container">
+      <button class="Subscribe">Search</button>
+      <a href="main.html" class="login-btn">Back to Home</a>
+    </div>
+  </nav>
+
+  <div class="brand-header">
+    <video src="./videos/marvel.mp4" class="brand-video" autoplay loop muted></video>
+    <div class="brand-overlay">
+    </div>
+  </div>
+
+  <section class="content-section">
+    <div class="section-header">
+      <h1 class="title">Featured Movies</h1>
+    </div>
+    <div class="movies-list">
+      <div class="card-container" id="featured-movies">
+        <!-- Movies will be loaded here -->
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-header">
+      <h1 class="title">Latest Releases</h1>
+    </div>
+    <div class="movies-list">
+      <div class="card-container" id="latest-movies">
+        <!-- Movies will be loaded here -->
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-header">
+      <h1 class="title">Top Rated</h1>
+    </div>
+    <div class="movies-list">
+      <div class="card-container" id="top-rated-movies">
+        <!-- Movies will be loaded here -->
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-header">
+      <h1 class="title">Marvel Series</h1>
+    </div>
+    <div class="movies-list">
+      <div class="card-container" id="marvel-series">
+        <!-- TV series will be loaded here -->
+      </div>
+    </div>
+  </section>
+
+  <script src="./context/script.js"></script>
+  <script src="./context/brand-movies.js"></script>
+  <script>
+    // Initialize Marvel content
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = [
+        { type: 'featured', containerId: 'featured-movies', title: 'Featured Movies' },
+        { type: 'latest', containerId: 'latest-movies', title: 'Latest Releases' },
+        { type: 'top_rated', containerId: 'top-rated-movies', title: 'Top Rated' }
+      ];
+      
+      // Load Marvel movies
+      fetchMoviesByCompany(COMPANY_IDS.MARVEL, sections);
+
+      // Load Marvel TV series
+      fetchMarvelSeries();
+    });
+
+    // Function to fetch Marvel TV series
+    async function fetchMarvelSeries() {
+      try {
+        const response = await fetch(
+          `${BASE_URL}/discover/tv?api_key=${API_KEY}&with_companies=${COMPANY_IDS.MARVEL}&sort_by=vote_average.desc&vote_count.gte=100&page=1`
+        );
+        const data = await response.json();
+        
+        if (data.results && data.results.length > 0) {
+          displayTVSeries(data.results, 'marvel-series');
+        } else {
+          showEmptyState('marvel-series', 'No TV series found');
+        }
+      } catch (error) {
+        console.error('Error fetching Marvel TV series:', error);
+        showEmptyState('marvel-series', 'Error loading TV series');
+      }
+    }
+  </script>
+</body>
+</html> 

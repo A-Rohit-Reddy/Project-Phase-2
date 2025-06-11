@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Details</title>
+    <link rel="stylesheet" href="styles/movie-details.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchInput" placeholder="Search movies...">
+            <ul id="suggestions" class="suggestions-list"></ul>
+        </div>
+
+        <div class="right-container">
+            <a href="main.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <button class="Subscribe">Search</button>
+            <button class="login-btn">Login</button>
+        </div>
+    </nav>
+
+    <!-- Movie Hero Section -->
+    <div class="movie-hero">
+        <div class="hero-backdrop"></div>
+        <div class="movie-details">
+            <div class="movie-poster">
+                <img src="" alt="Movie Poster" id="movie-poster">
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <span id="rating">0.0</span>
+                </div>
+            </div>
+            <div class="movie-info">
+                <h1 id="movie-title">Movie Title</h1>
+                <div class="movie-meta">
+                    <span id="release-year">2023</span>
+                    <span id="runtime">0h 0m</span>
+                    <span id="genres">Genre</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="play-btn">
+                        <i class="fas fa-play"></i> Watch Now
+                    </button>
+                    <button class="trailer-btn" id="trailer-btn">
+                        <i class="fas fa-film"></i> Watch Trailer
+                    </button>
+                    <button class="watchlist-btn">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="movie-overview">
+                    <h3>Overview</h3>
+                    <p id="overview">Movie description goes here...</p>
+                </div>
+                <div id="additional-info"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trailer Modal -->
+    <div id="trailer-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="trailer-container"></div>
+        </div>
+    </div>
+
+    <!-- Cast Section -->
+    <section class="cast-section">
+        <h2>Cast</h2>
+        <div class="cast-list" id="cast-list">
+            <!-- Cast members will be added here dynamically -->
+        </div>
+    </section>
+
+    <!-- Crew Section -->
+    <section class="crew-section">
+        <h2>Crew</h2>
+        <div class="crew-list" id="crew-list">
+            <!-- Crew members will be added here dynamically -->
+        </div>
+    </section>
+
+    <!-- Similar Movies -->
+    <section class="similar-section">
+        <h2>More Like This</h2>
+        <div class="similar-movies" id="similar-movies">
+            <!-- Similar movies will be added here dynamically -->
+        </div>
+    </section>
+
+    <script src="context/watch.js"></script>
+</body>
+</html>
