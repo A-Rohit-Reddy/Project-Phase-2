@@ -45,3 +45,7 @@ Then simply open index.html in your browser.
 
 ## 🤝 Contributing
 Contributions are welcome! Feel free to fork this repo and submit a pull request.
+
+## Deployment Link
+
+[Click here to enter Cinestuff](https://a-rohit-reddy.github.io/Project-Phase-2/movie-main/Hotstar-Clone-main/)
