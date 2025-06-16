@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineStuff AI - Movie Assistant</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/cinestuff.css">
+</head>
+<body>
+  <div class="sidebar-trigger"></div>
+  <div class="sidebar">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <img src="images/disney.PNG" alt="Disney+" class="sidebar-logo">
+      </div>
+      <div class="sidebar-menu">
+        <a href="main.html" class="menu-item">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a href="watchlist.html" class="menu-item">
+          <i class="fas fa-plus"></i>
+          <span>Watchlist</span>
+        </a>
+        <a href="movies.html" class="menu-item">
+          <i class="fas fa-film"></i>
+          <span>Movies</span>
+        </a>
+        <a href="series.html" class="menu-item">
+          <i class="fas fa-tv"></i>
+          <span>Series</span>
+        </a>
+        <a href="cinestuff.html" class="menu-item active">
+          <i class="fas fa-robot"></i>
+          <span>CineStuff AI</span>
+        </a>
+      </div>
+      <div class="sidebar-categories">
+        <h3>Categories</h3>
+        <a href="action.html" class="category-item">Action</a>
+        <a href="adventure.html" class="category-item">Adventure</a>
+        <a href="animation.html" class="category-item">Animation</a>
+        <a href="comedy.html" class="category-item">Comedy</a>
+        <a href="drama.html" class="category-item">Drama</a>
+        <a href="horror.html" class="category-item">Horror</a>
+        <a href="scifi.html" class="category-item">Sci-Fi</a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <div class="search-container">
+      <input type="text" class="search-box" id="searchInput" placeholder="Search movies...">
+      <ul id="suggestions" class="suggestions-list"></ul>
+    </div>
+
+    <div class="right-container">
+      <button class="Subscribe">Search</button>
+      <a href="main.html" class="login-btn">Back to Home</a>
+    </div>
+  </nav>
+
+  <div class="main-content">
+    <h1>🎬 CineStuff AI Assistant</h1>
+    <div id="chat-box">
+      <div><b>Bot:</b> 👋 Hi! I'm CineStuff. Ask me about any movie — rating, cast, review, or age limit!</div>
+    </div>
+    <div id="input-section">
+      <div id="form-row">
+        <input type="text" id="user-input" placeholder="Enter movie name..." />
+        <select id="query-type">
+          <option value="rating">Rating</option>
+          <option value="cast">Cast</option>
+          <option value="review">Review</option>
+          <option value="age">Age Limit</option>
+        </select>
+        <button type="button" onclick="handleUserInput()">Ask CineStuff</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="context/cinestuff.js"></script>
+</body>
+</html> 

@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Series Details</title>
+    <link rel="stylesheet" href="styles/movie-details.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Cast Section Styles */
+        .cast-section {
+            padding: 20px 4%;
+            background: linear-gradient(135deg, #1a0b2e 0%, #1f1125 50%, #261218 100%);
+        }
+
+        .cast-section h2 {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .cast-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .cast-member {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .cast-member:hover {
+            transform: scale(1.05);
+        }
+
+        .cast-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .cast-member h4 {
+            color: #fff;
+            font-size: 16px;
+            margin: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cast-member p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            margin: 0 10px 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Similar Series Section Styles */
+        .similar-section {
+            padding: 20px 4%;
+            background: linear-gradient(135deg, #1a0b2e 0%, #1f1125 50%, #261218 100%);
+        }
+
+        .similar-section h2 {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .similar-movies {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .similar-movie {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .similar-movie:hover {
+            transform: scale(1.05);
+        }
+
+        .similar-poster {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .similar-info {
+            padding: 15px;
+        }
+
+        .similar-info h4 {
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .similar-rating {
+            color: #ffd700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Crew Section Styles */
+        .crew-section {
+            padding: 20px 4%;
+            background: linear-gradient(135deg, #1a0b2e 0%, #1f1125 50%, #261218 100%);
+        }
+
+        .crew-section h2 {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .crew-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .crew-member {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .crew-member:hover {
+            transform: scale(1.05);
+        }
+
+        .crew-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .crew-member h4 {
+            color: #fff;
+            font-size: 16px;
+            margin: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .crew-member p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            margin: 0 10px 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* No Data Message */
+        .no-data {
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 20px;
+            font-size: 16px;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .cast-list, .similar-movies, .crew-list {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 15px;
+            }
+
+            .cast-image, .crew-image {
+                height: 160px;
+            }
+
+            .similar-poster {
+                height: 240px;
+            }
+
+            .cast-member h4, .crew-member h4, .similar-info h4 {
+                font-size: 14px;
+            }
+
+            .cast-member p, .crew-member p {
+                font-size: 12px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .cast-list, .similar-movies, .crew-list {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 10px;
+            }
+
+            .cast-image, .crew-image {
+                height: 140px;
+            }
+
+            .similar-poster {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchInput" placeholder="Search series...">
+            <ul id="suggestions" class="suggestions-list"></ul>
+        </div>
+
+        <div class="right-container">
+            <a href="main.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <button class="Subscribe">Search</button>
+            <button class="login-btn">Login</button>
+        </div>
+    </nav>
+
+    <!-- Series Hero Section -->
+    <div class="movie-hero">
+        <div class="hero-backdrop"></div>
+        <div class="movie-details">
+            <div class="movie-poster">
+                <img src="" alt="Series Poster" id="series-poster">
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <span id="rating">0.0</span>
+                </div>
+            </div>
+            <div class="movie-info">
+                <h1 id="series-title">Series Title</h1>
+                <div class="movie-meta">
+                    <span id="first-air-date">2023</span>
+                    <span id="seasons">0 Seasons</span>
+                    <span id="genres">Genre</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="trailer-btn" id="trailer-btn">
+                        <i class="fas fa-film"></i> Watch Trailer
+                    </button>
+                </div>
+                <div class="movie-overview">
+                    <h3>Overview</h3>
+                    <p id="overview">Series description goes here...</p>
+                </div>
+                <div id="additional-info"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trailer Modal -->
+    <div id="trailer-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="trailer-container"></div>
+        </div>
+    </div>
+
+    <!-- Cast Section -->
+    <section class="cast-section">
+        <h2>Cast</h2>
+        <div class="cast-list" id="cast-list">
+            <!-- Cast members will be added here dynamically -->
+        </div>
+    </section>
+
+    <!-- Trailer Section -->
+    <section class="trailer-section">
+        <h2>Series Trailer</h2>
+        <div class="trailer-container" id="embedded-trailer">
+            <!-- Trailer will be embedded here -->
+        </div>
+    </section>
+
+    <!-- Crew Section -->
+    <section class="crew-section">
+        <h2>Crew</h2>
+        <div class="crew-list" id="crew-list">
+            <!-- Crew members will be added here dynamically -->
+        </div>
+    </section>
+
+    <!-- Similar Series -->
+    <section class="similar-section">
+        <h2>More Like This</h2>
+        <div class="similar-movies" id="similar-series">
+            <!-- Similar series will be added here dynamically -->
+        </div>
+    </section>
+
+    <script>
+        const API_KEY = '72b544388cd4251b3736f3600c5dccc0';
+        const BASE_URL = 'https://api.themoviedb.org/3';
+        const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
+        const DEFAULT_PLACEHOLDER = 'images/poster 1.png';
+
+        // Get series ID from URL parameters
+        function getSeriesId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        }
+
+        // Error handling function
+        function showError(message) {
+            console.error(message);
+            const errorElement = document.createElement('div');
+            errorElement.className = 'error-message';
+            errorElement.textContent = message;
+            document.body.appendChild(errorElement);
+            setTimeout(() => errorElement.remove(), 5000);
+        }
+
+        // Initialize page
+        async function initializePage() {
+            try {
+                // Clear existing content
+                document.getElementById('series-poster').src = DEFAULT_PLACEHOLDER;
+                document.getElementById('series-title').textContent = 'Loading...';
+                document.getElementById('rating').textContent = '0.0';
+                document.getElementById('first-air-date').textContent = '';
+                document.getElementById('seasons').textContent = '';
+                document.getElementById('genres').textContent = '';
+                document.getElementById('overview').textContent = 'Loading...';
+                document.getElementById('additional-info').innerHTML = '';
+                document.getElementById('cast-list').innerHTML = '<div class="loading">Loading cast...</div>';
+                document.getElementById('crew-list').innerHTML = '<div class="loading">Loading crew...</div>';
+                document.getElementById('similar-series').innerHTML = '<div class="loading">Loading similar series...</div>';
+
+                // Get current series ID
+                const currentSeriesId = getSeriesId();
+                if (!currentSeriesId) {
+                    throw new Error('No series ID provided');
+                }
+                
+                // Load all data
+                await Promise.all([
+                    fetchSeriesDetails(currentSeriesId),
+                    fetchCredits(currentSeriesId),
+                    fetchSimilarSeries(currentSeriesId),
+                    fetchVideos(currentSeriesId)
+                ]);
+            } catch (error) {
+                console.error('Error initializing page:', error);
+                showError('Error loading page data: ' + error.message);
+            }
+        }
+
+        // Fetch series details
+        async function fetchSeriesDetails(seriesId) {
+            try {
+                console.log('Fetching series details for ID:', seriesId);
+                const response = await fetch(`${BASE_URL}/tv/${seriesId}?api_key=${API_KEY}&append_to_response=keywords,content_ratings`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const series = await response.json();
+                console.log('Series data received:', series);
+                
+                // Update page title with series name
+                document.title = `${series.name} - Series Details`;
+                
+                // Update series poster
+                const posterImg = document.getElementById('series-poster');
+                console.log('Found poster element:', posterImg);
+                
+                if (series.poster_path) {
+                    const posterUrl = `${IMAGE_BASE_URL}/w500${series.poster_path}`;
+                    console.log('Setting poster URL:', posterUrl);
+                    posterImg.src = posterUrl;
+                    posterImg.onerror = function() {
+                        console.log('Error loading poster from API, using default:', DEFAULT_PLACEHOLDER);
+                        this.src = DEFAULT_PLACEHOLDER;
+                    };
+                    posterImg.onload = function() {
+                        console.log('Poster loaded successfully');
+                        this.classList.add('loaded');
+                    };
+                } else {
+                    console.log('No poster path, using default:', DEFAULT_PLACEHOLDER);
+                    posterImg.src = DEFAULT_PLACEHOLDER;
+                }
+
+                // Update series details
+                document.getElementById('series-title').textContent = series.name;
+                document.getElementById('rating').textContent = series.vote_average.toFixed(1);
+                document.getElementById('first-air-date').textContent = new Date(series.first_air_date).getFullYear();
+                document.getElementById('seasons').textContent = `${series.number_of_seasons} Seasons`;
+                document.getElementById('genres').textContent = series.genres.map(genre => genre.name).join(', ');
+                document.getElementById('overview').textContent = series.overview;
+
+                // Update backdrop
+                const heroBackdrop = document.querySelector('.hero-backdrop');
+                if (series.backdrop_path) {
+                    const backdropUrl = `${IMAGE_BASE_URL}/original${series.backdrop_path}`;
+                    console.log('Setting backdrop URL:', backdropUrl);
+                    heroBackdrop.style.backgroundImage = `url("${backdropUrl}")`;
+                    heroBackdrop.style.opacity = '0.5';
+                } else if (series.poster_path) {
+                    const posterUrl = `${IMAGE_BASE_URL}/original${series.poster_path}`;
+                    console.log('No backdrop, using poster as backdrop:', posterUrl);
+                    heroBackdrop.style.backgroundImage = `url("${posterUrl}")`;
+                    heroBackdrop.style.opacity = '0.5';
+                } else {
+                    console.log('No backdrop or poster, using default background color');
+                    heroBackdrop.style.backgroundColor = '#13111C';
+                }
+
+                // Update additional info
+                updateAdditionalInfo(series);
+
+            } catch (error) {
+                console.error('Error fetching series details:', error);
+                showError('Error fetching series details: ' + error.message);
+                
+                // Set default poster on error
+                const posterImg = document.getElementById('series-poster');
+                console.log('Setting default poster on error:', DEFAULT_PLACEHOLDER);
+                posterImg.src = DEFAULT_PLACEHOLDER;
+            }
+        }
+
+        // Update additional series information
+        function updateAdditionalInfo(series) {
+            const additionalInfo = document.getElementById('additional-info');
+            const networks = series.networks?.map(network => network.name).join(', ') || 'N/A';
+            const status = series.status || 'N/A';
+            const type = series.type || 'N/A';
+            const languages = series.languages?.map(lang => lang.toUpperCase()).join(', ') || 'N/A';
+
+            additionalInfo.innerHTML = `
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h4>Status</h4>
+                        <p>${status}</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Type</h4>
+                        <p>${type}</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Networks</h4>
+                        <p>${networks}</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Languages</h4>
+                        <p>${languages}</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Created By</h4>
+                        <p>${series.created_by?.map(creator => creator.name).join(', ') || 'N/A'}</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Production Companies</h4>
+                        <p>${series.production_companies?.map(company => company.name).join(', ') || 'N/A'}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Fetch cast and crew
+        async function fetchCredits(seriesId) {
+            try {
+                const response = await fetch(`${BASE_URL}/tv/${seriesId}/credits?api_key=${API_KEY}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const credits = await response.json();
+                
+                // Display cast
+                const castList = document.getElementById('cast-list');
+                castList.innerHTML = '';
+                
+                if (!credits.cast || credits.cast.length === 0) {
+                    castList.innerHTML = '<p class="no-data">No cast information available</p>';
+                    return;
+                }
+
+                // Filter out cast members without profile images
+                const castWithImages = credits.cast.filter(person => person.profile_path);
+
+                if (castWithImages.length === 0) {
+                    castList.innerHTML = '<p class="no-data">No cast images available</p>';
+                    return;
+                }
+
+                castWithImages.slice(0, 10).forEach(person => {
+                    const castMember = document.createElement('div');
+                    castMember.className = 'cast-member';
+                    
+                    const imageUrl = `${IMAGE_BASE_URL}/w185${person.profile_path}`;
+
+                    castMember.innerHTML = `
+                        <div class="cast-image-container">
+                            <img 
+                                src="${imageUrl}"
+                                alt="${person.name}"
+                                loading="lazy"
+                            >
+                        </div>
+                        <h3>${person.name}</h3>
+                        <p>${person.character}</p>
+                    `;
+                    castList.appendChild(castMember);
+
+                    // Verify image loading
+                    const img = castMember.querySelector('img');
+                    img.addEventListener('load', () => {
+                        img.classList.add('loaded');
+                        castMember.classList.add('loaded');
+                    });
+                });
+
+                // Display crew
+                const crewList = document.getElementById('crew-list');
+                crewList.innerHTML = '';
+                
+                const keyCrewRoles = ['Creator', 'Executive Producer', 'Producer', 'Writer'];
+                const keyCrew = credits.crew
+                    .filter(person => 
+                        keyCrewRoles.includes(person.job) && person.profile_path
+                    )
+                    .slice(0, 8);
+                
+                if (!keyCrew || keyCrew.length === 0) {
+                    crewList.innerHTML = '<p class="no-data">No crew information available</p>';
+                    return;
+                }
+
+                keyCrew.forEach(person => {
+                    const crewMember = document.createElement('div');
+                    crewMember.className = 'crew-member';
+                    
+                    const imageUrl = `${IMAGE_BASE_URL}/w185${person.profile_path}`;
+
+                    crewMember.innerHTML = `
+                        <div class="crew-image-container">
+                            <img 
+                                src="${imageUrl}"
+                                alt="${person.name}"
+                                class="crew-image"
+                                loading="lazy"
+                            >
+                        </div>
+                        <h3>${person.name}</h3>
+                        <p>${person.job}</p>
+                    `;
+                    crewList.appendChild(crewMember);
+
+                    // Verify image loading
+                    const img = crewMember.querySelector('img');
+                    img.addEventListener('load', () => {
+                        img.classList.add('loaded');
+                        crewMember.classList.add('loaded');
+                    });
+                });
+
+            } catch (error) {
+                console.error('Error fetching credits:', error);
+                document.getElementById('cast-list').innerHTML = '<p class="error-message">Error loading cast</p>';
+                document.getElementById('crew-list').innerHTML = '<p class="error-message">Error loading crew</p>';
+            }
+        }
+
+        // Fetch similar series
+        async function fetchSimilarSeries(seriesId) {
+            try {
+                const response = await fetch(`${BASE_URL}/tv/${seriesId}/similar?api_key=${API_KEY}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                const similarSeriesContainer = document.getElementById('similar-series');
+                similarSeriesContainer.innerHTML = '';
+
+                if (!data.results || data.results.length === 0) {
+                    similarSeriesContainer.innerHTML = '<p class="no-data">No similar series found</p>';
+                    return;
+                }
+
+                // Filter out series without posters
+                const seriesWithPosters = data.results.filter(series => series.poster_path);
+
+                if (seriesWithPosters.length === 0) {
+                    similarSeriesContainer.innerHTML = '<p class="no-data">No series posters available</p>';
+                    return;
+                }
+
+                seriesWithPosters.slice(0, 10).forEach((series, index) => {
+                    const seriesCard = document.createElement('div');
+                    seriesCard.className = 'series-card';
+                    
+                    const imageUrl = `${IMAGE_BASE_URL}/w342${series.poster_path}`;
+                    const firstAirYear = series.first_air_date ? new Date(series.first_air_date).getFullYear() : 'N/A';
+                    const rating = series.vote_average ? series.vote_average.toFixed(1) : 'N/A';
+
+                    seriesCard.innerHTML = `
+                        <div class="series-poster-container">
+                            <img 
+                                src="${imageUrl}"
+                                alt="${series.name}"
+                                class="series-poster"
+                                loading="lazy"
+                            >
+                            <div class="series-card-overlay">
+                                <div class="series-card-info">
+                                    <h3>${series.name}</h3>
+                                    <div class="series-meta-info">
+                                        <span class="year">${firstAirYear}</span>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <span>${rating}</span>
+                                        </div>
+                                    </div>
+                                    <p class="overview">${series.overview.slice(0, 100)}${series.overview.length > 100 ? '...' : ''}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add hover effect class after a delay
+                    setTimeout(() => {
+                        seriesCard.classList.add('show');
+                    }, index * 100);
+
+                    // Update click handler to use navigation function
+                    seriesCard.addEventListener('click', () => {
+                        navigateToSeries(series.id);
+                    });
+
+                    // Handle image loading
+                    const img = seriesCard.querySelector('img');
+                    img.addEventListener('load', () => {
+                        img.classList.add('loaded');
+                        seriesCard.classList.add('loaded');
+                    });
+
+                    similarSeriesContainer.appendChild(seriesCard);
+                });
+            } catch (error) {
+                console.error('Error fetching similar series:', error);
+                document.getElementById('similar-series').innerHTML = 
+                    '<p class="error-message">Error loading similar series</p>';
+            }
+        }
+
+        // Fetch videos (trailers)
+        async function fetchVideos(seriesId) {
+            try {
+                const response = await fetch(`${BASE_URL}/tv/${seriesId}/videos?api_key=${API_KEY}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                // Find official trailer
+                const trailer = data.results.find(video => 
+                    video.type === "Trailer" && video.site === "YouTube") || data.results[0];
+
+                // Update trailer button functionality
+                const trailerBtn = document.getElementById('trailer-btn');
+                if (trailer) {
+                    // Add click event to trailer button for modal
+                    trailerBtn.addEventListener('click', () => {
+                        const modal = document.getElementById('trailer-modal');
+                        const trailerContainer = document.getElementById('trailer-container');
+                        trailerContainer.innerHTML = `
+                            <iframe width="100%" height="500px" 
+                                src="https://www.youtube.com/embed/${trailer.key}?autoplay=1" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        `;
+                        modal.style.display = 'block';
+                    });
+
+                    // Embed trailer in the page
+                    const embeddedTrailer = document.getElementById('embedded-trailer');
+                    embeddedTrailer.innerHTML = `
+                        <iframe
+                            src="https://www.youtube.com/embed/${trailer.key}"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    `;
+                } else {
+                    // Hide trailer button and section if no trailer available
+                    trailerBtn.style.display = 'none';
+                    const trailerSection = document.querySelector('.trailer-section');
+                    if (trailerSection) {
+                        trailerSection.style.display = 'none';
+                    }
+                    document.getElementById('embedded-trailer').innerHTML = `
+                        <div class="no-trailer-message">
+                            <h3>No trailer available</h3>
+                            <p>Sorry, we couldn't find a trailer for this series.</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error fetching videos:', error);
+                document.getElementById('trailer-btn').style.display = 'none';
+                const trailerSection = document.querySelector('.trailer-section');
+                if (trailerSection) {
+                    trailerSection.style.display = 'none';
+                }
+            }
+        }
+
+        // Navigation function
+        function navigateToSeries(seriesId) {
+            // Update URL without reloading the page
+            const newUrl = `${window.location.pathname}?id=${seriesId}`;
+            window.history.pushState({ seriesId }, '', newUrl);
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Reload series data
+            initializePage();
+        }
+
+        // Handle browser back/forward buttons
+        window.onpopstate = function(event) {
+            initializePage();
+        };
+
+        // Initialize modal functionality
+        const modal = document.getElementById('trailer-modal');
+        const closeBtn = document.querySelector('.close-modal');
+
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.getElementById('trailer-container').innerHTML = '';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                document.getElementById('trailer-container').innerHTML = '';
+            }
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const suggestionsList = document.getElementById('suggestions');
+        const imageBase = 'https://image.tmdb.org/t/p/w92';
+
+        let searchTimeout;
+
+        function renderSuggestions(series) {
+            suggestionsList.innerHTML = '';
+            
+            if (series.length === 0) {
+                suggestionsList.innerHTML = '<li class="no-results">No series found</li>';
+                return;
+            }
+            
+            series.forEach(show => {
+                const li = document.createElement('li');
+                const posterPath = show.poster_path 
+                    ? `${imageBase}${show.poster_path}`
+                    : 'https://via.placeholder.com/92x138/1e293b/ffffff?text=No+Image';
+                
+                li.innerHTML = `
+                    <div class="suggestion-item">
+                        <img src="${posterPath}" alt="${show.name}" class="suggestion-poster" onerror="this.src='https://via.placeholder.com/92x138/1e293b/ffffff?text=No+Image'">
+                        <div class="suggestion-info">
+                            <h4>${show.name}</h4>
+                            <div class="suggestion-meta">
+                                <span>${show.first_air_date?.slice(0, 4) || 'N/A'}</span>
+                                ${show.vote_average ? `
+                                    <span class="rating">
+                                        <i class="fas fa-star"></i>
+                                        ${show.vote_average.toFixed(1)}
+                                    </span>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Navigate to series details page when clicked
+                li.addEventListener('click', () => {
+                    window.location.href = `series-details.html?id=${show.id}`;
+                });
+
+                suggestionsList.appendChild(li);
+            });
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            
+            // Clear previous timeout
+            if (searchTimeout) {
+                clearTimeout(searchTimeout);
+            }
+
+            // Hide suggestions if query is too short
+            if (query.length < 2) {
+                suggestionsList.style.display = 'none';
+                return;
+            }
+
+            // Add debounce to prevent too many API calls
+            searchTimeout = setTimeout(async () => {
+                try {
+                    const response = await fetch(
+                        `${BASE_URL}/search/tv?api_key=${API_KEY}&query=${encodeURIComponent(query)}&include_adult=false`
+                    );
+                    const data = await response.json();
+                    
+                    // Get top 8 results
+                    const series = data.results.slice(0, 8);
+                    renderSuggestions(series);
+                    suggestionsList.style.display = series.length ? 'block' : 'none';
+                } catch (error) {
+                    console.error('Search error:', error);
+                    suggestionsList.style.display = 'none';
+                }
+            }, 300);
+        });
+
+        // Close suggestions when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.search-container')) {
+                suggestionsList.style.display = 'none';
+            }
+        });
+
+        // Initialize the page when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html> 

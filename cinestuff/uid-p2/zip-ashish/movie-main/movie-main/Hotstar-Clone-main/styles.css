@@ -1,0 +1,111 @@
+/* Watchlist Button Styles */
+.watchlist-btn {
+    background: #0072d2;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.watchlist-btn:hover {
+    background: #0058a3;
+}
+
+.watchlist-btn.in-watchlist {
+    background: #28a745;
+}
+
+.watchlist-btn.in-watchlist:hover {
+    background: #218838;
+}
+
+/* Toast Notification */
+.toast-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.toast-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-notification.success {
+    background: #28a745;
+}
+
+.toast-notification.error {
+    background: #dc3545;
+}
+
+/* Movie Card Styles */
+.movie-card {
+    background: #1a1a1a;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+}
+
+.movie-poster {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+}
+
+.movie-info {
+    padding: 15px;
+}
+
+.movie-title {
+    margin: 0;
+    color: white;
+    font-size: 1.1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    color: #999;
+    font-size: 0.9em;
+}
+
+.movie-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.movie-rating i {
+    color: #ffd700;
+}
+
+.movie-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+} 
